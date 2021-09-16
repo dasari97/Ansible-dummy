@@ -2,3 +2,9 @@
   yum:
     name: nginx
     state: present
+    
+- name: Downlaoding Frontend zip file
+  ansible.builtin.unarchive:
+    src: https://github.com/roboshop-devops-project/frontend/archive/main.zip
+    dest: /tmp
+    remote_src: yes
