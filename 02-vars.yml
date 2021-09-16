@@ -4,6 +4,8 @@
     URL1: play.google.com
   vars_files:
     - vars.yml
+  roles:
+    - demo
   tasks:
     - name: Play level Variables
       debug:
@@ -23,6 +25,3 @@
       debug: 
         msg: URL = {{URL5}}
     
-
- roles:
-   - demo
