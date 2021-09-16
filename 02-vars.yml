@@ -5,7 +5,7 @@
   vars_files:
     - vars.yml
   roles:
-    - demo
+    - sample
   tasks:
     - name: Play level Variables
       debug:
