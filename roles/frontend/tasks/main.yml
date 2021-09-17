@@ -14,9 +14,19 @@
     path: /usr/share/nginx/html
     state: absent
     
-- name: Copy extracted content to nginx path
+- name: Copying extracted content to nginx path
   ansible.builtin.copy:
     src: /tmp/frontend-main/static/
     dest: /usr/share/nginx/html/
     remote_src: yes
 
+- name: Copying configuration file
+  ansible.builtin.copy:
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
+
+- name: Starting Nginx
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: yes
