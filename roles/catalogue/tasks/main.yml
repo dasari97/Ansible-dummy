@@ -31,5 +31,17 @@
     
 - name: Install NodeJS packages based on package.json.
   community.general.npm:
-    path: /home/roboshop/catalogue/
+    path: /home/roboshop/catalogue
   become_user: roboshop
+  
+- name: Configuring Systemd services
+  copy: 
+    src: systemd.service
+    dest: /etc/systemd/system/catalogue.service
+    
+- name: Starting catalogue service
+  systemd:
+    name: catalogue
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
