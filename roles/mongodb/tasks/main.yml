@@ -31,7 +31,7 @@
     file: "/tmp/mongodb-main/catalogue.js"
     idempotent: yes
     
-- name: Uploading Schema into MongoDB
+- name: Uploading users Schema into MongoDB
   community.mongodb.mongodb_shell:
-    file: "/tmp/mongodb-main/user.js"
+    file: "/tmp/mongodb-main/users.js"
     idempotent: yes
