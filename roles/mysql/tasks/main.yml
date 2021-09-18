@@ -10,7 +10,9 @@
     
 - name: Installing Mysql-community-server
   yum:
-    name: mysql-community-server
+    name: 
+      - mysql-community-server
+      - MySQL-python
     state: present
     
 - name: Starting Mysql service
@@ -47,3 +49,17 @@
 - name: uninstall plugin validate_password
   shell: echo "uninstall plugin validate_password;" >/tmp/pass.sql ; mysql -u root -p"RoboShop@1" </tmp/pass.sql
   when: val_out.rc == 0
+  
+- name: Downlaoding Mysql zip file
+  ansible.builtin.unarchive:
+    src: "https://github.com/roboshop-devops-project/mysql/archive/main.zip"
+    dest: /tmp
+    remote_src: yes
+    
+- name: Loading Schema
+  mysql_db:
+    state: import
+    name: all
+    target: /tmp/mysql-main/shipping.sql
+    login_password: RoboShop@1
+    login_user: root
