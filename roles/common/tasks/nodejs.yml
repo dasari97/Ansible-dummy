@@ -6,42 +6,13 @@
       - make
     state: present
     
-- name: Creating Roboshop App user
-  user:
-    name: roboshop
-    
-- name: Downlaoding {{COMPONENT}} zip file
-  ansible.builtin.unarchive:
-    src: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
-    dest: /tmp
-    remote_src: yes
-    
-- name: Removing old file
-  ansible.builtin.file:
-    path: /home/roboshop/{{COMPONENT}}
-    state: absent
-    
-- name: Copying extracted content to {{COMPONENT}} path
-  ansible.builtin.copy:
-    src: /tmp/{{COMPONENT}}-main/
-    dest: /home/roboshop/{{COMPONENT}}/
-    remote_src: yes
-    owner: roboshop
-    group: roboshop
+- name: Dowloading Files
+  include_tasks: download.yml
     
 - name: Install NodeJS packages based on package.json.
   community.general.npm:
     path: /home/roboshop/{{COMPONENT}}
   become_user: roboshop
   
-- name: Configuring Systemd services
-  copy: 
-    src: systemd.service
-    dest: /etc/systemd/system/{{COMPONENT}}.service
-    
-- name: Starting {{COMPONENT}} service
-  systemd:
-    name: "{{COMPONENT}}"
-    state: restarted
-    enabled: yes
-    daemon_reload: yes
+- name: Configuring systemd
+  include_tasks: systemd.yml
