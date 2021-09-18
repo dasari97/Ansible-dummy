@@ -19,15 +19,21 @@
     state: restarted
     enabled: yes
     
+- name: Checking for Default password
+  shell: echo 'show databases' | mysql -u root -pRoboShop@1
+  register: out
+
 - name: Finding default_password
   shell: grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}'
   register: default_pass
+  when: out.rc != 0
   
 - name: Resetting sql file
   copy:
     src: reset.sql
     dest: /tmp/rest.sql
+  when: out.rc != 0
   
 - name: Changing Mysql default_password
   shell: mysql --connect-expired-password -uroot -p"{{default_pass.stdout}}" </tmp/rest.sql
-
+  when: out.rc != 0
