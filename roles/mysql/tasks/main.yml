@@ -29,5 +29,5 @@
     dest: /tmp/rest.sql
   
 - name: Changing Mysql default_password
-  shell: mysql --connect-expired-password -uroot -p"{{default_pass.stdout}}"
+  shell: mysql --connect-expired-password -uroot -p"{{default_pass.stdout}}" </tmp/rest.sql
 
