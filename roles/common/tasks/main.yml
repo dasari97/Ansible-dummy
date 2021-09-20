@@ -1,0 +1,2 @@
+- name: Setting Hostname to the Machine.
+  shell: set-hostname {{COMPONENT}}
